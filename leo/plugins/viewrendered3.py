@@ -674,7 +674,7 @@ def viewrendered(event):
         return vr3
     #
     # Legacy code: add the pane to the splitter.
-    layouts[h] = c.db.get('viewrendered_default_layouts', (None, None))
+    layouts[h] = c.db.get('viewrendered3_default_layouts', (None, None))
     vr3._ns_id = '_leo_viewrendered3' # for free_layout load/save
     vr3.splitter = splitter = c.free_layout.get_top_splitter()
     if splitter:
@@ -2684,7 +2684,7 @@ class ViewRenderedController3(QtWidgets.QWidget):
         global layouts
         c = self.c
         splitter = self.splitter
-        deflo = c.db.get('viewrendered_default_layouts', (None, None))
+        deflo = c.db.get('viewrendered3_default_layouts', (None, None))
         loc, loo = layouts.get(c.hash(), deflo)
         if which == 'closed' and loc and splitter:
             splitter.load_layout(loc)
@@ -2776,7 +2776,7 @@ class ViewRenderedController3(QtWidgets.QWidget):
         global layouts
         c = self.c
         splitter = self.splitter
-        deflo = c.db.get('viewrendered_default_layouts', (None, None))
+        deflo = c.db.get('viewrendered3_default_layouts', (None, None))
         (loc, loo) = layouts.get(c.hash(), deflo)
         if which == 'closed' and splitter:
             loc = splitter.get_saveable_layout()
@@ -2786,7 +2786,7 @@ class ViewRenderedController3(QtWidgets.QWidget):
             loo = splitter.get_saveable_layout()
             loo = json.loads(json.dumps(loo))
             layouts[h] = loc, loo
-        c.db['viewrendered_default_layouts'] = layouts[h]
+        c.db['viewrendered3_default_layouts'] = layouts[h]
     #@-others
 #@+node:TomP.20200213170204.1: ** class State
 class State(Enum):
