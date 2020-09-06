@@ -5,6 +5,14 @@ __pycache__/
 .cache/
 *.py[cod]
 *.history
+*.orig
+
+# Other programs
+leo/.vscode/
+
+# PyInstaller folders.
+/build/
+/dist/
 
 # .db files
 *.db
@@ -44,10 +52,6 @@ pip-wheel-metadata/
 
 # Test results
 /.pytest_cache/
-
-# PyInstaller folders.
-/build/
-/dist/
 
 ./MANIFEST
 #./setup.cfg

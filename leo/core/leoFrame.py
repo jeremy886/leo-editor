@@ -39,7 +39,6 @@ assert time
 # convenience methods exists:
 #
 # - body.updateBody & tree.updateBody:
-#     Called by k.masterCommand after any keystroke not handled by k.masterCommand.
 #     These are suprising complex.
 #
 # - body.bodyChanged & tree.headChanged:
@@ -321,6 +320,23 @@ class LeoBody:
         w = c.frame.body.widget
         self.updateInjectedIvars(w, p)
         self.selectLabel(w)
+    #@+node:ekr.20200415041750.1: *5* LeoBody.cycleEditorFocus (restored)
+    @cmd('editor-cycle-focus')
+    @cmd('cycle-editor-focus')  # There is no LeoQtBody method
+    def cycleEditorFocus(self, event=None):
+        """Cycle keyboard focus between the body text editors."""
+        c = self.c
+        d = self.editorWrappers
+        w = c.frame.body.wrapper
+        values = list(d.values())
+        if len(values) > 1:
+            i = values.index(w) + 1
+            if i == len(values):
+                i = 0
+            w2 = values[i]
+            assert(w != w2)
+            self.selectEditor(w2)
+            c.frame.body.wrapper = w2
     #@+node:ekr.20060528113806: *5* LeoBody.deleteEditor (overridden)
     def deleteEditor(self, event=None):
         """Delete the presently selected body text editor."""
@@ -704,13 +720,16 @@ class LeoFrame:
         self.tab_width = 0  # The tab width in effect in this pane.
     #@+node:ekr.20051009045404: *4* frame.createFirstTreeNode
     def createFirstTreeNode(self):
-        f = self; c = f.c
+        c= self.c
         v = leoNodes.VNode(context=c)
         p = leoNodes.Position(v)
         v.initHeadString("NewHeadline")
+        #
+        # #1631: Initialize here, not in p._linkAsRoot.
+        c.hiddenRootNode.children = []
+        #
         # New in Leo 4.5: p.moveToRoot would be wrong: the node hasn't been linked yet.
-        p._linkAsRoot(oldRoot=None)
-        # c.setRootPosition() # New in 4.4.2.
+        p._linkAsRoot()
     #@+node:ekr.20150509194519.1: *3* LeoFrame.cmd (decorator)
     def cmd(name):
         """Command decorator for the LeoFrame class."""
