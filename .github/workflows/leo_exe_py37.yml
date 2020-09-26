@@ -1,7 +1,7 @@
 # Create an "all in one" bundle of Leo and all dependencies for Windows that 
 # doesn't need to be installed in order to run, just unzip and use.
 
-name: Build standalone leo.exe
+name: Build standalone leo.exe for Python 3.6 3.7
 
 on: [workflow_dispatch]
 
